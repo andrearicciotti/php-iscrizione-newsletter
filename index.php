@@ -1,9 +1,10 @@
 <?php
-$input_mail = $_GET['mail'];
-
-
 // controllo e-mail diretto in pagina
 
+
+// if(isset($_GET['mail'])) {
+//     $input_mail = $_GET['mail'];
+// }
 
 // var_dump($_GET, $input_mail);
 // $mail_flag = false;
@@ -19,12 +20,15 @@ $input_mail = $_GET['mail'];
 
 // controllo e-mail da altra pagina di funzioni.
 
+if(isset($_GET['mail'])) {
+    $input_mail = $_GET['mail'];
 
-var_dump(__DIR__);
-include __DIR__ . '/functions.php';
-
-$mail_flag = mail_validator($input_mail);
-var_dump($mail_flag);
+    var_dump(__DIR__);
+    include __DIR__ . '/functions.php';
+    
+    $mail_flag = mail_validator($input_mail);
+    var_dump($mail_flag);
+}
 ?>
 
 
@@ -43,7 +47,7 @@ var_dump($mail_flag);
 <body>
     <div class="container text-center my-5">
 
-        <form action="index.php" method="GET" class="p-2 <?php if($mail_flag === true) {echo 'error-mail';}?>">
+        <form action="index.php" method="GET" class="p-2">
             <label for="mail">Inserisci il tuo indirizzo e-mail.</label>
             <input type="text" name="mail" id="mail">
 
@@ -51,11 +55,16 @@ var_dump($mail_flag);
                 <button type="submit" class="btn btn-primary">Invia</button>
             </div>
 
-            <?php if($mail_flag === true) {?>
-            <div class="text-center my-2">
+            <?php if (isset($mail_flag) && $mail_flag === true) { ?>
+                <div class="alert alert-danger" role="alert">
                 <p>L' indirizzo e-mail inserito <strong>non e' corretto</strong>, deve contenere almeno una " <strong>@</strong> " e un " <strong>.</strong> ".</p>
                 <p><strong>Riprova.</strong></p>
-            </div>
+                </div>
+            <?php } elseif(isset($mail_flag) && $mail_flag === false) { ?>
+                <div class="alert alert-success" role="alert">
+                <p>L' indirizzo e-mail inserito <strong>E' corretto</strong>.</p>
+                </div>
+
             <?php } ?>
 
         </form>
