@@ -23,11 +23,16 @@
 if(isset($_GET['mail'])) {
     $input_mail = $_GET['mail'];
 
-    var_dump(__DIR__);
     include __DIR__ . '/functions.php';
     
     $mail_flag = mail_validator($input_mail);
-    var_dump($mail_flag);
+
+    if($mail_flag === false) {
+        session_start();
+        $_SESSION['mail'] = $input_mail;
+        var_dump($_SESSION['mail']);
+        header('location: ./thankyou.php');
+    }
 }
 ?>
 
@@ -62,7 +67,7 @@ if(isset($_GET['mail'])) {
                 </div>
             <?php } elseif(isset($mail_flag) && $mail_flag === false) { ?>
                 <div class="alert alert-success" role="alert">
-                <p>L' indirizzo e-mail inserito <strong>E' corretto</strong>.</p>
+                <p>L' indirizzo e-mail inserito <strong>E' corretto, reindirizzamento...</strong></p>
                 </div>
 
             <?php } ?>
