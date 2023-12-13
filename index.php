@@ -1,17 +1,30 @@
 <?php
 $input_mail = $_GET['mail'];
-var_dump($_GET, $input_mail);
 
-$mail_flag = false;
 
-if(isset($_GET['mail']) && str_contains($input_mail, '@') && str_contains($input_mail, '.')) {
-    // mail valida
-} else {
-    // mail non valida
-    $mail_flag = true;
-    var_dump($_GET);
-}
+// controllo e-mail diretto in pagina
 
+
+// var_dump($_GET, $input_mail);
+// $mail_flag = false;
+
+// if(str_contains($input_mail, '@') && str_contains($input_mail, '.')) {
+//     // mail valida
+// } else {
+//     // mail non valida
+//     $mail_flag = true;
+//     var_dump($_GET);
+// }
+
+
+// controllo e-mail da altra pagina di funzioni.
+
+
+var_dump(__DIR__);
+include __DIR__ . '/functions.php';
+
+$mail_flag = mail_validator($input_mail);
+var_dump($mail_flag);
 ?>
 
 
@@ -40,7 +53,8 @@ if(isset($_GET['mail']) && str_contains($input_mail, '@') && str_contains($input
 
             <?php if($mail_flag === true) {?>
             <div class="text-center my-2">
-                <p>L' indirizzo e-mail inserito <strong>non e' corretto</strong>, deve contenere almeno un str"@" e un ".".</p>
+                <p>L' indirizzo e-mail inserito <strong>non e' corretto</strong>, deve contenere almeno una " <strong>@</strong> " e un " <strong>.</strong> ".</p>
+                <p><strong>Riprova.</strong></p>
             </div>
             <?php } ?>
 
