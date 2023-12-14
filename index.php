@@ -20,20 +20,27 @@
 
 // controllo e-mail da altra pagina di funzioni.
 
-if(isset($_GET['mail'])) {
-    $input_mail = $_GET['mail'];
 
-    include __DIR__ . '/functions.php';
+if(!isset($_SESSION)) {
+
+    if(isset($_GET['mail'])) {
+        $input_mail = $_GET['mail'];
     
-    $mail_flag = mail_validator($input_mail);
-
-    if($mail_flag === false) {
-        session_start();
-        $_SESSION['mail'] = $input_mail;
-        var_dump($_SESSION['mail']);
-        header('location: ./thankyou.php');
+        include __DIR__ . '/functions.php';
+        
+        $mail_flag = mail_validator($input_mail);
+    
+        if($mail_flag === false) {
+            session_start();
+            $_SESSION['mail'] = $input_mail;
+            var_dump($_SESSION['mail']);
+            header('location: ./thankyou.php');
+        }
     }
+} else {
+    header('location: ./home.php');
 }
+
 ?>
 
 
@@ -54,7 +61,7 @@ if(isset($_GET['mail'])) {
 
         <form action="index.php" method="GET" class="p-2">
             <label for="mail">Inserisci il tuo indirizzo e-mail.</label>
-            <input type="text" name="mail" id="mail">
+            <input type="text" value="<?php if(isset($_GET['mail'])) { echo $_GET['mail']; } ?>" name="mail" id="mail">
 
             <div class="text-center my-2">
                 <button type="submit" class="btn btn-primary">Invia</button>
